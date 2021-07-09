@@ -5,6 +5,8 @@ import cons from 'consolidate'
 import { routes } from './routes'
 // import { Utils } from './utils'
 
+// ADD GITMOJI
+
 const folder = process.env.PWD ? process.env.PWD : process.env.pm_cwd
 
 require('dotenv').config(folder + '/.env')
