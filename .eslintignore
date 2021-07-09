@@ -1,0 +1,8 @@
+node_modules
+dist
+public
+src/views
+src/database
+package.json
+tsconfig.json
+yarn.lock

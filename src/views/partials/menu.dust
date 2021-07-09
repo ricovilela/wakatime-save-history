@@ -1,0 +1,21 @@
+<div class="leftside-menu">
+    <div class="h-100" id="leftside-menu-container" data-simplebar>
+        <ul class="side-nav">
+
+            <h2 class="side-nav-link">Wakatime Timeline</h2>
+
+            <li class="side-nav-title side-nav-item">Navigation</li>
+
+            {#result}
+            <li class="side-nav-item">
+                <a href="/{name}" class="side-nav-link">
+                    <i class="uil-user"></i>
+                    <span> {name} </span>
+                </a>
+            </li>
+            {/result}
+
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+</div>
