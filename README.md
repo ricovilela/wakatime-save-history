@@ -10,9 +10,7 @@
 
 <p>
 
-![Node](https://img.shields.io/badge/node-14.17.1-brightgreen) ![Express](https://img.shields.io/badge/express-4.17.1-yellow) ![Sequelize](https://img.shields.io/badge/sequelize-6.6.2-informational) ![Mariadb](https://img.shields.io/badge/mariadb-10.3.27-9cf) ![Production](https://img.shields.io/badge/production-60%25-orange) ![LastCommit](https://img.shields.io/badge/last%20commit-Jul-blue)
-
-<img src="https://visitor-badge.glitch.me/badge?page_id=ricovilela.wakatime-save-history" />
+![Node](https://img.shields.io/badge/node-14.17.1-brightgreen) ![Express](https://img.shields.io/badge/express-4.17.1-yellow) ![Sequelize](https://img.shields.io/badge/sequelize-6.6.2-informational) ![Mariadb](https://img.shields.io/badge/mariadb-10.3.27-9cf) ![Production](https://img.shields.io/badge/production-60%25-orange) ![LastCommit](https://img.shields.io/badge/last%20commit-Jul-blue) ![Visitors](https://visitor-badge.glitch.me/badge?page_id=ricovilela.wakatime-save-history)
 
 </p>
 
