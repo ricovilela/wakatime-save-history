@@ -5,17 +5,16 @@
 <h4 align="center">Save your Wakatime history more than 7 days on free mode.</h4>
 
 <p align="center">
-  <a href="#prerequisites">Prerequisites</a> • <a href="#installation">Installation</a> • <a href="#running">Running locally</a> • <a href="#translation">Translation</a> • <a href="#troubleshooting">Troubleshooting</a> • <a href="#about">About</a>
+  <a href="#prerequisites">Prerequisites</a> • <a href="#installation">Installation</a> • <a href="#running-locally">Running locally</a> • <a href="#translation">Translation</a> • <a href="#troubleshooting">Troubleshooting</a> • <a href="#about">About</a>
 </p>
 
-<center>
 <p>
 
-![Node](https://img.shields.io/badge/node-14.17.1-brightgreen) ![Express](https://img.shields.io/badge/express-4.17.1-yellow) ![Sequelize](https://img.shields.io/badge/sequelize-6.6.2-informational) ![Mariadb](https://img.shields.io/badge/mariadb-10.3.27-9cf)<br />
-![Production](https://img.shields.io/badge/production-60%25-orange) ![LastCommit](https://img.shields.io/badge/last%20commit-Jul-blue)
+![Node](https://img.shields.io/badge/node-14.17.1-brightgreen) ![Express](https://img.shields.io/badge/express-4.17.1-yellow) ![Sequelize](https://img.shields.io/badge/sequelize-6.6.2-informational) ![Mariadb](https://img.shields.io/badge/mariadb-10.3.27-9cf) ![Production](https://img.shields.io/badge/production-60%25-orange) ![LastCommit](https://img.shields.io/badge/last%20commit-Jul-blue)
+
+<img src="https://visitor-badge.glitch.me/badge?page_id=ricovilela.wakatime-save-history" />
 
 </p>
-</center>
 
 ## Getting started
 
@@ -69,6 +68,10 @@ If you are interested in translating `wakatime-save-history` to **pt-BR**, open 
 ## Troubleshooting
 
 Create a issue now [Issues](https://github.com/ricovilela/wakatime-save-history/issues)
+
+## Alerts
+
+To save all historys, run a CRON service on http://localhost:3000/ from start and on end the day
 
 ## Authors
 
