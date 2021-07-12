@@ -36,6 +36,7 @@
 1. Edit file ./scr/database/config/database.json and update the informations of you database access
 1. `sequelize db:migrate` to create the database
 1. Create .env file based on .env-example and update the options
+1. Enter on Wakatime website and select SHARE on left menu, click 'Embeddable Charts' and select Format: JSON, Chart Type: Coding Activity, copy the url and paste on propertie 'urlHours' of .env file. At the same screen on website select Chart Type: Languages, copy the url and paste on propertie 'urlLanguage' of .env file, save and go to run project
 
 ### Running locally
 
