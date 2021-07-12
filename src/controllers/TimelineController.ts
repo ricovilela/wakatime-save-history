@@ -10,7 +10,7 @@ class TimelineController {
     const result = JSON.parse(process.env.API_HOSTS)
 
     if (req.params.name) {
-      const resDb = db.wakatimelines.findAll({
+      const resDb = db.wakatimeline.findAll({
         where: {
           name: req.params.name
         }

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { TimelineController } from '@controllers/TimelineController'
+import { TimelineController } from '../controllers/TimelineController'
 
 const routes = Router()
 

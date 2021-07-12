@@ -9,6 +9,7 @@ const folder = process.env.PWD ? process.env.PWD : process.env.pm_cwd
 require('dotenv').config(folder + '/.env')
 
 type typeConfig = {
+  wakatimeline?: string;
   database: string;
   dialect: any;
   port: any;
