@@ -23,6 +23,7 @@
 1. Git
 1. Node: any 14.x version starting with v14.0.0 or greater
 1. Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/)
+1. TypeScript language [Read More](https://www.typescriptlang.org/)
 1. Sequelize: Install global [Sequelize](https://sequelize.org/)
 1. Database support by Sequelize: [Sequelize Dialects](https://sequelize.org/master/manual/dialect-specific-things.html#underlying-connector-libraries)
 1. A fork of the repo (for any contributions)
