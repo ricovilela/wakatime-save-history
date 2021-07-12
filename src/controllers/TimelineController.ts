@@ -18,8 +18,6 @@ class TimelineController {
 
     const result = JSON.parse(process.env.API_HOSTS)
 
-    console.log(result)
-
     for (const reslt of result) {
       apiConsultHours = await utils.getApiData(reslt.urlHours)
       apiConsultLanguage = await utils.getApiData(reslt.urlLanguage)
@@ -69,9 +67,10 @@ class TimelineController {
         chartColor = []
         chartName = []
         chartPercent = []
-        value.languages.reduce((entryMap, e) => chartColor.push(e.color))
-        value.languages.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
-        value.languages.reduce((entryMap, e) => chartPercent.push(e.percent))
+        const lang = value.languages
+        lang.reduce((entryMap, e) => chartColor.push(e.color))
+        lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
+        lang.reduce((entryMap, e) => chartPercent.push(e.percent))
         contentData[key].chartColor = JSON.stringify(chartColor)
         contentData[key].chartName = JSON.stringify(chartName)
         contentData[key].chartPercent = JSON.stringify(chartPercent)
@@ -87,9 +86,11 @@ class TimelineController {
         chartColor = []
         chartName = []
         chartPercent = []
-        value.languages.reduce((entryMap, e) => chartColor.push(e.color))
-        value.languages.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
-        value.languages.reduce((entryMap, e) => chartPercent.push(e.percent))
+        console.log(value)
+        const lang = value.languages
+        lang.reduce((entryMap, e) => chartColor.push(e.color))
+        lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
+        lang.reduce((entryMap, e) => chartPercent.push(e.percent))
         contentData[key].chartColor = JSON.stringify(chartColor)
         contentData[key].chartName = JSON.stringify(chartName)
         contentData[key].chartPercent = JSON.stringify(chartPercent)
