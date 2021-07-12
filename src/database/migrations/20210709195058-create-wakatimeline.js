@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.TIME
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       languages: {
         type: Sequelize.JSON

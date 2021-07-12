@@ -17,40 +17,30 @@
             <div class="card">
                 <div class="card-body">
 
-                    <button type="button" class="btn btn-primary" id="add-client" style="margin-bottom: 20px;">Adicionar Servidor</button>
-
                     <div class="tab-content">
                         <div class="tab-pane show active" id="striped-rows-preview">
                             <div class="table-responsive-sm">
                                 <table class="table table-striped table-centered mb-0">
                                     <thead>
                                         <tr>
-                                            <th>Razão Social</th>
-                                            <th>CNPJ</th>
-                                            <th>Servidor</th>
-                                            <th>API</th>
-                                            <th>Parâmetros</th>
-                                            <th>Ações</th>
+                                            <th>User</th>
+                                            <th>Date</th>
+                                            <th>Week Day</th>
+                                            <th>Hours</th>
+                                            <th>Lang</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {#result}
+                                        {#content}
                                         <tr {@math key=$idx method="mod" operand="2" }{@eq value="0" type="number" }
                                             style="background-color: rgb(218, 218, 218);" {/eq}{/math}>
-                                            <td class="table-user">{company}</td>
-                                            <td style="white-space: pre-line">{cnpj}</td>
-                                            <td>{name}</td>
-                                            <td>{@getSinc value="{count}"/}</td>
-                                            <td>{@getSincReplic value="{replic}" /}</td>
-                                            <td class="table-action">
-                                                <a href="/client-sinc?{id}" class="action-icon"> <i class="mdi mdi-cogs" title="Sincronizar Parâmetros" style="color: #28a745;"></i></a>
-                                                <a href="/client-file?{id}" class="action-icon"> <i class="mdi mdi-file" title="Baixar arquivo de configuração"></i></a>
-                                                <a href="/client?{uuid}" class="action-icon"> <i class="mdi mdi-content-duplicate title="Duplicar Servidor" style="color: #17a2b8;"></i></a>
-                                                <a href="/client-alt?{uuid}" class="action-icon"> <i class="mdi mdi-pencil" title="Editar Servidor" style="color: #007bff;"></i></a>
-                                                <a href="/client-del?{uuid}" class="action-icon"> <i class="mdi mdi-delete" title="Excluir Servidor" style="color: red;"></i></a>
-                                            </td>
+                                            <td class="table-user">{user}</td>
+                                            <td>{date}</td>
+                                            <td>{@formatDateDay value="{date}"/}</td>
+                                            <td>{@formatHour value="{hours}"/}</td>
+                                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#chartReport" id="show-langs" onclick="showChart({chartName},{chartPercent},{chartColor})">SHOW</button></td>
                                         </tr>
-                                        {/result}
+                                        {/content}
                                     </tbody>
                                 </table>
                             </div>
@@ -62,6 +52,51 @@
     </div>
 </div>
 
+<div class="modal fade" id="chartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{origin}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+    </div>
+</div>
+
 {>"partials/footer"/}
 {>"partials/scripts"/}
+
+<script>
+const showChart = (labels,data,bgcolors) => {
+    document.querySelector(".modal-body").innerHTML = '<canvas id="myChart"></canvas>';
+
+    const ctx = document.getElementById('myChart');
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '',
+                data: data,
+                backgroundColor: bgcolors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y'
+        }
+    });
+
+};
+</script>
+
 {>"partials/closeheader"/}

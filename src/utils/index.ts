@@ -1,142 +1,69 @@
 import dust from 'dustjs-helpers'
 import dateFormat from 'dateformat'
-import nodemailer from 'nodemailer'
-import hbs from 'nodemailer-express-handlebars'
-import path from 'path'
+import fetch from 'node-fetch'
 
 class Utils {
-  checkCredentials (req, res) {
-    if (!req.session.uuid) {
-      res.redirect('/')
-    }
-  }
-
-  kbaseSendMail (email, tittle, content) {
-    const transport = nodemailer.createTransport({
-      host: 'mail.windel.com.br',
-      port: 465,
-      auth: {
-        user: 'ricardo.vilela@windel.com.br',
-        pass: 'Ricardo2021Windel!'
-      }
-    })
-
-    transport.use('compile', hbs({
-      viewEngine: {
-        defaultLayout: undefined,
-        partialsDir: path.resolve('./src/views/partials/mail')
-      },
-      viewPath: path.resolve('./src/views/partials/mail'),
-      extName: '.html'
-    }))
-
-    transport.sendMail({
-      to: email,
-      from: 'Windel Integrador<integrador@windel.com.br>',
-      subject: `Windel Integrador - ${tittle}`,
-      text: content,
-      template: 'news',
-      context: { tittle, content }
-    }, (err) => {
-      if (err) {
-        console.log(err)
-      }
+  async getApiData (url) {
+    return new Promise((resolve) => {
+      fetch(url, {
+        method: 'get',
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then(async (response) => {
+          if (!response.ok) {
+            console.log('error on receive de datas')
+          } else {
+            resolve(response.json())
+          }
+        }).catch(async (error) => {
+          console.log(error)
+        })
     })
   }
 
-  // CALL ALL HELPERS
+  dateFormatNow () {
+    return dateFormat(new Date(), 'yyyy-mm-dd')
+  }
+
+  // CALL ALL DUST HELPERS
   async callDustHelpers () {
-    // DUST HELPER TO TRANSFORM TIMESTAMP IN DATE BR WITH HOUR
-    dust.helpers.formatDateHour = function (chunk, context, bodies, params) {
+    // GET DAY OF WEEK TRANSLATE
+    dust.helpers.formatDateDay = function (chunk, context, bodies, params) {
       const value = dust.helpers.tap(params.value, chunk, context)
 
-      if (value) {
-        const timeset = dateFormat(new Date(value), 'dd-mm-yyyy HH:MM')
+      const now = new Date(value)
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      const day = days[now.getDay()]
 
-        return chunk.write(timeset)
-      }
+      return chunk.write(day)
     }
 
-    // DUST HELPER TO TRANSFORM TIMESTAMP IN DATE BR
-    dust.helpers.formatDate = function (chunk, context, bodies, params) {
+    // GET ONLY DATE
+    dust.helpers.formatHour = function (chunk, context, bodies, params) {
       const value = dust.helpers.tap(params.value, chunk, context)
 
-      const timeset = dateFormat(new Date(value), 'dd-mm-yyyy')
+      const splitHour = value.split(':')
+      const parseHour = parseInt(splitHour[0])
+      const parseMinute = parseInt(splitHour[1])
 
-      return chunk.write(timeset)
-    }
+      if (parseFloat(process.env.HOURS_DEV_PLUS) > 0) {
+        let hoursMinutes = 0
 
-    dust.helpers.getSinc = async function (chunk, context, bodies, params) {
-      const value = dust.helpers.tap(params.value, chunk, context)
+        if (parseHour > 0) hoursMinutes = parseHour * 60
 
-      if (value) {
-        chunk.write(`<i class="mdi mdi-table-arrow-right" style="color: red;"></i> <span style="color: red;">${value}</span>`)
-      }
+        const sum = hoursMinutes + parseMinute
+        // ADD 50% TO RESEARCH, WRITE DOCUMENTATION, DBASE, AND OTHERS THINGS IF NOT CODING BUT PART OF CODING
+        const percertPlus = sum * parseFloat(process.env.HOURS_DEV_PLUS)
+        const consPerc = sum + percertPlus
 
-      return ''
-    }
+        const m = consPerc % 60
+        const h = (consPerc - m) / 60
+        const HHMM = h.toString() + ':' + (m < 10 ? '0' : '') + Math.round(m)
 
-    dust.helpers.getSincReplic = async function (chunk, context, bodies, params) {
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      if (value) {
-        chunk.write('<button type="button" class="btn btn-secondary" id="add-client">Aguardando</button>')
-      }
-
-      return ''
-    }
-
-    // DUST HELPER TO TRANSFORM TIMESTAMP IN DATE BR WHITH EXT
-    dust.helpers.formatDateExt = function (chunk, context, bodies, params) {
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      const timeset = dateFormat(new Date(value), 'd, mmmm, yyyy HH:MM')
-
-      return chunk.write(timeset)
-    }
-
-    dust.helpers.formatText = function (chunk, context, bodies, params) {
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      const result = value.replace(/(?:\r\n|\r|\n)/g, '<br>')
-
-      return chunk.write(result)
-    }
-
-    dust.helpers.formatTextList = function (chunk, context, bodies, params) {
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      const result = value.substr(0, 100)
-
-      return chunk.write(result + '...')
-    }
-
-    dust.helpers.formatTextLength = function (chunk, context, bodies, params) {
-      let result
-
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      if (value.length > 55) {
-        result = value.substr(0, 55) + '...'
+        return chunk.write(HHMM)
       } else {
-        result = value
+        return chunk.write(parseHour + ':' + (parseMinute < 10 ? '0' : '') + parseMinute)
       }
-
-      return chunk.write(result)
-    }
-
-    dust.helpers.ifChecked = function (chunk, context, bodies, params) {
-      let result
-
-      const value = dust.helpers.tap(params.value, chunk, context)
-
-      if (value === '0') {
-        result = ''
-      } else if (value === '1') {
-        result = 'checked'
-      }
-
-      return chunk.write(result)
     }
   }
 }

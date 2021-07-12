@@ -2,15 +2,20 @@
     <div class="h-100" id="leftside-menu-container" data-simplebar>
         <ul class="side-nav">
 
-            <h2 class="side-nav-link">Wakatime Timeline</h2>
+            <li class="side-nav-title side-nav-item">Users list</li>
 
-            <li class="side-nav-title side-nav-item">Navigation</li>
-
+            <li class="side-nav-item">
+                <a href="/" class="side-nav-link">
+                    <i class="uil-users-alt"></i>
+                    <span> All Users </span>
+                </a>
+            </li>
+            
             {#result}
             <li class="side-nav-item">
-                <a href="/{name}" class="side-nav-link">
+                <a href="/{user}" class="side-nav-link">
                     <i class="uil-user"></i>
-                    <span> {name} </span>
+                    <span> {user} </span>
                 </a>
             </li>
             {/result}
