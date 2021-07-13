@@ -1,11 +1,11 @@
-import { Router } from 'express'
+import { Router } from "express";
 
-import { TimelineController } from '../controllers/TimelineController'
+import { TimelineController } from "../controllers/TimelineController";
 
-const routes = Router()
+const routes = Router();
 
-const timelineController = new TimelineController()
+const timelineController = new TimelineController();
 
-routes.get('/:name?', timelineController.timeLine)
+routes.get("/:name?", timelineController.timeLine);
 
-export { routes }
+export { routes };

@@ -1,13 +1,13 @@
-'use strict'
-let folder
-const fs = require('fs')
-const path = require('path')
-const Sequelize = require('sequelize')
-const basename = path.basename(__filename)
+"use strict";
+let folder;
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
+const basename = path.basename(__filename);
 
-const db: any = {}
+const db: any = {};
 
-require('dotenv').config(folder + '/.env')
+require("dotenv").config(folder + "/.env");
 
 const config = {
   host: process.env.DB_HOST,
@@ -15,30 +15,39 @@ const config = {
   port: process.env.DB_PORT,
   logging: false,
   dialectOptions: {
-    autoJsonMap: false
+    autoJsonMap: false,
   },
-  timezone: "-03:00"
-}
+  timezone: "-03:00",
+};
 
-const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, config)
+const sequelize = new Sequelize(
+  process.env.DB_DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  config
+);
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js')
+fs.readdirSync(__dirname)
+  .filter((file) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
-    db[model.name] = model
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
+    db[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
-    db[modelName].associate(db)
+    db[modelName].associate(db);
   }
-})
+});
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
-module.exports = db
+module.exports = db;

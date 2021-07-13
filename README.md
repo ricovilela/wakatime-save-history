@@ -39,13 +39,13 @@
 ### Running locally
 
 1. `yarn dev` to start the hot-reloading development server
-1. `open http://localhost:3000` to open the site in your favorite browser
+1. `open http://localhost:4000` to open the site in your favorite browser
 
 ### Running production
 
 1. `yarn build` to run the build engine files
 1. `yarn start` to start the server
-1. `open http://localhost:3000` to open the site in your favorite browser
+1. `open http://localhost:4000` to open the site in your favorite browser
 
 ## Contributing
 
@@ -76,11 +76,12 @@ Create a issue now [Issues](https://github.com/ricovilela/wakatime-save-history/
 
 ## Alerts
 
-To save all historys, run a CRON service on http://localhost:3000/ from start and on end the day
+To save all historys, run a CRON service on http://localhost:4000/ from start and on end the day
 
 ## Authors
 
 <a href="https://github.com/ricovilela">Rico Vilela</a>
 
 ## License
+
 MIT [LICENSE-DOCS.md](https://github.com/ricovilela/wakatime-save-history/blob/master/LICENSE) file.
