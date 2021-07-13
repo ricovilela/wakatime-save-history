@@ -9,3 +9,6 @@ lerna-debug.log*
 *husky
 node_modules/
 .env
+dist
+dist/
+.DS_Store
