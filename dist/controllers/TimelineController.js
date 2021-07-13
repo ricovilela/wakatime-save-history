@@ -15,7 +15,6 @@ class TimelineController {
         let chartPercent = [];
         let user = '';
         const result = JSON.parse(process.env.API_HOSTS);
-        console.log(result);
         for (const reslt of result) {
             apiConsultHours = await utils.getApiData(reslt.urlHours);
             apiConsultLanguage = await utils.getApiData(reslt.urlLanguage);
@@ -59,17 +58,6 @@ class TimelineController {
                     ['user'], ['date', 'DESC']
                 ]
             });
-            for (const [key, value] of Object.entries(contentData)) {
-                chartColor = [];
-                chartName = [];
-                chartPercent = [];
-                value.languages.reduce((entryMap, e) => chartColor.push(e.color));
-                value.languages.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name));
-                value.languages.reduce((entryMap, e) => chartPercent.push(e.percent));
-                contentData[key].chartColor = JSON.stringify(chartColor);
-                contentData[key].chartName = JSON.stringify(chartName);
-                contentData[key].chartPercent = JSON.stringify(chartPercent);
-            }
         }
         else {
             contentData = await db.wakatimeline.findAll({
@@ -78,17 +66,19 @@ class TimelineController {
                     ['user'], ['date', 'DESC']
                 ]
             });
-            for (const [key, value] of Object.entries(contentData)) {
-                chartColor = [];
-                chartName = [];
-                chartPercent = [];
-                value.languages.reduce((entryMap, e) => chartColor.push(e.color));
-                value.languages.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name));
-                value.languages.reduce((entryMap, e) => chartPercent.push(e.percent));
-                contentData[key].chartColor = JSON.stringify(chartColor);
-                contentData[key].chartName = JSON.stringify(chartName);
-                contentData[key].chartPercent = JSON.stringify(chartPercent);
-            }
+        }
+        for (const key in contentData) {
+            const value = contentData[key];
+            const lang = value.languages;
+            chartColor = [];
+            chartName = [];
+            chartPercent = [];
+            lang.reduce((entryMap, e) => chartColor.push(e.color));
+            lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name));
+            lang.reduce((entryMap, e) => chartPercent.push(e.percent));
+            contentData[key].chartColor = JSON.stringify(chartColor);
+            contentData[key].chartName = JSON.stringify(chartName);
+            contentData[key].chartPercent = JSON.stringify(chartPercent);
         }
         res.render('timeline', {
             title: 'Users Timeline' + user,

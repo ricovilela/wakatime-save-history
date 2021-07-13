@@ -1,0 +1,9 @@
+<div class="content-page">
+    <div class="content">
+        <div class="navbar-custom" id="topmenu">
+            <button class="button-menu-mobile open-left">
+                <i class="mdi mdi-menu"></i>
+            </button>
+            <h1 style="margin-top: 10px;">Wakatime Timeline</h1>
+
+        </div>

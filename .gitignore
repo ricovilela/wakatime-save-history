@@ -5,5 +5,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .husky/
+.husky
+*husky
 node_modules/
 .env

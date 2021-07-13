@@ -1,0 +1,12 @@
+{
+  "username": "root",
+  "password": "root",
+  "database": "wakatimeline",
+  "host": "localhost",
+  "dialect": "mariadb",
+  "logging": false,
+  "dialectOptions": {
+    "autoJsonMap": false
+  },
+  "timezone": "-03:00"
+}

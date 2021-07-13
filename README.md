@@ -5,7 +5,7 @@
 <h4 align="center">Save your Wakatime history more than 7 days on free mode.</h4>
 
 <p align="center">
-  <a href="#prerequisites">Prerequisites</a> • <a href="#installation">Installation</a> • <a href="#running-locally">Running locally</a> • <a href="#translation">Translation</a> • <a href="#troubleshooting">Troubleshooting</a> • <a href="#about">About</a>
+  <a href="#prerequisites">Prerequisites</a> • <a href="#installation">Installation</a> • <a href="#running-locally">Running locally</a> • <a href="#running-production">Running production</a> • <a href="#translation">Translation</a> • <a href="#troubleshooting">Troubleshooting</a> • <a href="#about">About</a>
 </p>
 
 <p>
@@ -39,6 +39,12 @@
 ### Running locally
 
 1. `yarn dev` to start the hot-reloading development server
+1. `open http://localhost:3000` to open the site in your favorite browser
+
+### Running production
+
+1. `yarn build` to run the build engine files
+1. `yarn start` to start the server
 1. `open http://localhost:3000` to open the site in your favorite browser
 
 ## Contributing

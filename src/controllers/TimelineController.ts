@@ -63,18 +63,6 @@ class TimelineController {
           ['user'], ['date', 'DESC']
         ]
       })
-      for (const [key, value] of Object.entries(contentData)) {
-        chartColor = []
-        chartName = []
-        chartPercent = []
-        const lang = value.languages
-        lang.reduce((entryMap, e) => chartColor.push(e.color))
-        lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
-        lang.reduce((entryMap, e) => chartPercent.push(e.percent))
-        contentData[key].chartColor = JSON.stringify(chartColor)
-        contentData[key].chartName = JSON.stringify(chartName)
-        contentData[key].chartPercent = JSON.stringify(chartPercent)
-      }
     } else {
       contentData = await db.wakatimeline.findAll({
         raw: true,
@@ -82,19 +70,20 @@ class TimelineController {
           ['user'], ['date', 'DESC']
         ]
       })
-      for (const [key, value] of Object.entries(contentData)) {
-        chartColor = []
-        chartName = []
-        chartPercent = []
-        console.log(value)
-        const lang = value.languages
-        lang.reduce((entryMap, e) => chartColor.push(e.color))
-        lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
-        lang.reduce((entryMap, e) => chartPercent.push(e.percent))
-        contentData[key].chartColor = JSON.stringify(chartColor)
-        contentData[key].chartName = JSON.stringify(chartName)
-        contentData[key].chartPercent = JSON.stringify(chartPercent)
-      }
+    }
+
+    for (const key in contentData) {
+      const value: any = contentData[key]
+      const lang = value.languages
+      chartColor = []
+      chartName = []
+      chartPercent = []
+      lang.reduce((entryMap, e) => chartColor.push(e.color))
+      lang.reduce((entryMap, e) => chartName.push(e.name === 'Other' ? 'TypeScript' : e.name))
+      lang.reduce((entryMap, e) => chartPercent.push(e.percent))
+      contentData[key].chartColor = JSON.stringify(chartColor)
+      contentData[key].chartName = JSON.stringify(chartName)
+      contentData[key].chartPercent = JSON.stringify(chartPercent)
     }
 
     res.render('timeline', {
