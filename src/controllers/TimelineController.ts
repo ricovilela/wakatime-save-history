@@ -30,8 +30,6 @@ class TimelineController {
           },
         });
 
-        console.log(consDataInDb);
-
         if (consDataInDb.length === 0) {
           await db.wakatimeline.create({
             user: reslt.user,
