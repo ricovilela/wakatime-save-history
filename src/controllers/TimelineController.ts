@@ -10,9 +10,9 @@ class TimelineController {
     let contentData: any;
     let apiConsultHours: any;
     let apiConsultLanguage: any;
-    let chartColor = [];
-    let chartName = [];
-    let chartPercent = [];
+    const chartColor = [];
+    const chartName = [];
+    const chartPercent = [];
     let user = "";
 
     const result = JSON.parse(process.env.API_HOSTS);
@@ -72,23 +72,22 @@ class TimelineController {
       for (const key in contentData) {
         const value: any = contentData[key];
         const lang = value.languages;
-        chartColor = [];
-        chartName = [];
-        chartPercent = [];
-        if (chartColor.length > 0) {
+
+        if (lang.length > 0) {
+          chartColor.splice(0, chartColor.length);
+          chartName.splice(0, chartName.length);
+          chartPercent.splice(0, chartPercent.length);
+
           lang.reduce((entryMap, e) => chartColor.push(e.color));
-        }
-        if (chartName.length > 0) {
           lang.reduce((entryMap, e) =>
             chartName.push(e.name === "Other" ? "TypeScript" : e.name)
           );
-        }
-        if (chartPercent.length > 0) {
           lang.reduce((entryMap, e) => chartPercent.push(e.percent));
+
+          contentData[key].chartColor = JSON.stringify(chartColor);
+          contentData[key].chartName = JSON.stringify(chartName);
+          contentData[key].chartPercent = JSON.stringify(chartPercent);
         }
-        contentData[key].chartColor = JSON.stringify(chartColor);
-        contentData[key].chartName = JSON.stringify(chartName);
-        contentData[key].chartPercent = JSON.stringify(chartPercent);
       }
     }
 
