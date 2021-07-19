@@ -14,6 +14,16 @@
 
 </p>
 
+## Screens
+
+<img src=".github/screen-1.png" alt="Screen Users List" />
+<br />
+Screen Users List
+<br /><br />
+<img src=".github/screen-2.png" alt="Screen Day Language" />
+<br />
+Screen Day Language
+
 ## Getting started
 
 ### Prerequisites
