@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Utils } from "../utils";
-import db from "../database/models/index";
+const db = require("../database/models/");
 
 const utils = new Utils();
 
