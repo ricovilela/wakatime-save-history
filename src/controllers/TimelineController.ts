@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Utils } from "../utils";
-
-const db = require("../database/models");
+import db from "../database/models/index";
 
 const utils = new Utils();
 
@@ -22,71 +21,77 @@ class TimelineController {
       apiConsultHours = await utils.getApiData(reslt.urlHours);
       apiConsultLanguage = await utils.getApiData(reslt.urlLanguage);
 
-      if (apiConsultHours.data.length > 0) {
-        for (const apiConsHrs of apiConsultHours.data) {
-          consDataInDb = await db.wakatimeline.findAll({
-            raw: true,
-            where: {
-              user: reslt.user,
-              date: apiConsHrs.range.date,
-            },
-          });
+      for (const apiConsHrs of apiConsultHours.data) {
+        consDataInDb = await db.wakatimeline.findOne({
+          raw: true,
+          where: {
+            user: reslt.user,
+            date: apiConsHrs.range.date,
+          },
+        });
 
-          if (consDataInDb.length === 0) {
-            await db.wakatimeline.create({
-              user: reslt.user,
+        console.log(consDataInDb);
+
+        if (consDataInDb.length === 0) {
+          await db.wakatimeline.create({
+            user: reslt.user,
+            hours: apiConsHrs.grand_total.digital,
+            date: apiConsHrs.range.date,
+            languages: apiConsultLanguage.data,
+          });
+        } else if (consDataInDb.date === utils.dateFormatNow()) {
+          await db.wakatimeline.update(
+            {
               hours: apiConsHrs.grand_total.digital,
-              date: apiConsHrs.range.date,
               languages: apiConsultLanguage.data,
-            });
-          } else if (consDataInDb[0].date === utils.dateFormatNow()) {
-            await db.wakatimeline.update(
-              {
-                hours: apiConsHrs.grand_total.digital,
-                languages: apiConsultLanguage.data,
+            },
+            {
+              where: {
+                user: reslt.user,
+                date: apiConsHrs.range.date,
               },
-              {
-                where: {
-                  user: reslt.user,
-                  date: apiConsHrs.range.date,
-                },
-              }
-            );
-          }
+            }
+          );
         }
       }
-    }
 
-    if (req.params.name) {
-      user = " - " + req.params.name;
-      contentData = await db.wakatimeline.findAll({
-        raw: true,
-        where: {
-          user: req.params.name,
-        },
-        order: [["user"], ["date", "DESC"]],
-      });
-    } else {
-      contentData = await db.wakatimeline.findAll({
-        raw: true,
-        order: [["user"], ["date", "DESC"]],
-      });
-    }
+      if (req.params.name) {
+        user = " - " + req.params.name;
+        contentData = await db.wakatimeline.findAll({
+          raw: true,
+          where: {
+            user: req.params.name,
+          },
+          order: [["user"], ["date", "DESC"]],
+        });
+      } else {
+        contentData = await db.wakatimeline.findAll({
+          raw: true,
+          order: [["user"], ["date", "DESC"]],
+        });
+      }
 
-    for (const key in contentData) {
-      const value: any = contentData[key];
-      const lang = value.languages;
-      chartColor = [];
-      chartName = [];
-      chartPercent = [];
-      lang.reduce((entryMap, e) => chartColor.push(e.color));
-      lang.reduce((entryMap, e) =>
-        chartName.push(e.name === "Other" ? "TypeScript" : e.name)
-      );
-      lang.reduce((entryMap, e) => chartPercent.push(e.percent));
-      contentData[key].chartColor = JSON.stringify(chartColor);
-      contentData[key].chartName = JSON.stringify(chartName);
-      contentData[key].chartPercent = JSON.stringify(chartPercent);
+      for (const key in contentData) {
+        const value: any = contentData[key];
+        const lang = value.languages;
+        chartColor = [];
+        chartName = [];
+        chartPercent = [];
+        if (chartColor.length > 0) {
+          lang.reduce((entryMap, e) => chartColor.push(e.color));
+        }
+        if (chartName.length > 0) {
+          lang.reduce((entryMap, e) =>
+            chartName.push(e.name === "Other" ? "TypeScript" : e.name)
+          );
+        }
+        if (chartPercent.length > 0) {
+          lang.reduce((entryMap, e) => chartPercent.push(e.percent));
+        }
+        contentData[key].chartColor = JSON.stringify(chartColor);
+        contentData[key].chartName = JSON.stringify(chartName);
+        contentData[key].chartPercent = JSON.stringify(chartPercent);
+      }
     }
 
     res.render("timeline", {

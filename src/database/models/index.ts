@@ -7,30 +7,19 @@ const basename = path.basename(__filename);
 
 const db: any = {};
 
-require("dotenv").config(folder + "/.env");
-
-const config = {
-  host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT,
-  port: process.env.DB_PORT,
-  logging: false,
-  dialectOptions: {
-    autoJsonMap: false,
-  },
-  timezone: "-03:00",
-};
+const config = require(__dirname + "/../config/database.json");
 
 const sequelize = new Sequelize(
-  process.env.DB_DATABASE,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  config.database,
+  config.username,
+  config.password,
   config
 );
 
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".ts"
     );
   })
   .forEach((file) => {

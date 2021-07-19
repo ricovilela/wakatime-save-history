@@ -2,7 +2,7 @@
   "username": "root",
   "password": "root",
   "database": "wakatimeline",
-  "host": "localhost",
+  "host": "192.168.1.250",
   "dialect": "mariadb",
   "logging": false,
   "dialectOptions": {
