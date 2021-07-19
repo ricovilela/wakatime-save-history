@@ -22,35 +22,37 @@ class TimelineController {
       apiConsultHours = await utils.getApiData(reslt.urlHours);
       apiConsultLanguage = await utils.getApiData(reslt.urlLanguage);
 
-      for (const apiConsHrs of apiConsultHours.data) {
-        consDataInDb = await db.wakatimeline.findAll({
-          raw: true,
-          where: {
-            user: reslt.user,
-            date: apiConsHrs.range.date,
-          },
-        });
-
-        if (consDataInDb.length === 0) {
-          await db.wakatimeline.create({
-            user: reslt.user,
-            hours: apiConsHrs.grand_total.digital,
-            date: apiConsHrs.range.date,
-            languages: apiConsultLanguage.data,
-          });
-        } else if (consDataInDb[0].date === utils.dateFormatNow()) {
-          await db.wakatimeline.update(
-            {
-              hours: apiConsHrs.grand_total.digital,
-              languages: apiConsultLanguage.data,
+      if (apiConsultHours.data.length > 0) {
+        for (const apiConsHrs of apiConsultHours.data) {
+          consDataInDb = await db.wakatimeline.findAll({
+            raw: true,
+            where: {
+              user: reslt.user,
+              date: apiConsHrs.range.date,
             },
-            {
-              where: {
-                user: reslt.user,
-                date: apiConsHrs.range.date,
+          });
+
+          if (consDataInDb.length === 0) {
+            await db.wakatimeline.create({
+              user: reslt.user,
+              hours: apiConsHrs.grand_total.digital,
+              date: apiConsHrs.range.date,
+              languages: apiConsultLanguage.data,
+            });
+          } else if (consDataInDb[0].date === utils.dateFormatNow()) {
+            await db.wakatimeline.update(
+              {
+                hours: apiConsHrs.grand_total.digital,
+                languages: apiConsultLanguage.data,
               },
-            }
-          );
+              {
+                where: {
+                  user: reslt.user,
+                  date: apiConsHrs.range.date,
+                },
+              }
+            );
+          }
         }
       }
     }
