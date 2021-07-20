@@ -30,26 +30,30 @@ class TimelineController {
           },
         });
 
-        if (consDataInDb.length === 0) {
-          await db.wakatimeline.create({
-            user: reslt.user,
-            hours: apiConsHrs.grand_total.digital,
-            date: apiConsHrs.range.date,
-            languages: apiConsultLanguage.data,
-          });
-        } else if (consDataInDb.date === utils.dateFormatNow()) {
-          await db.wakatimeline.update(
-            {
+        // console.log(consDataInDb)
+
+        if (consDataInDb) {
+          if (consDataInDb.length === 0) {
+            await db.wakatimeline.create({
+              user: reslt.user,
               hours: apiConsHrs.grand_total.digital,
+              date: apiConsHrs.range.date,
               languages: apiConsultLanguage.data,
-            },
-            {
-              where: {
-                user: reslt.user,
-                date: apiConsHrs.range.date,
+            });
+          } else if (consDataInDb.date === utils.dateFormatNow()) {
+            await db.wakatimeline.update(
+              {
+                hours: apiConsHrs.grand_total.digital,
+                languages: apiConsultLanguage.data,
               },
-            }
-          );
+              {
+                where: {
+                  user: reslt.user,
+                  date: apiConsHrs.range.date,
+                },
+              }
+            );
+          }
         }
       }
 
