@@ -1,0 +1,109 @@
+{>"partials/header"/}
+{>"partials/menu"/}
+{>"partials/topmenu"/}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">{title}</h4>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="add-dev" style="margin-bottom: 20px;">Add Dev</button>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="striped-rows-preview">
+                            <div class="table-responsive-sm">
+                                <table class="table table-striped table-centered mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Dev</th>
+                                            <th>Date In</th>
+                                            <th>Hours in 30 days</th>
+                                            <th>Total Hours lifetime</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {#result}
+                                        <tr {@math key=$idx method="mod" operand="2" }{@eq value="0" type="number" }
+                                            style="background-color: rgb(218, 218, 218);" {/eq}{/math}>
+                                            <td class="table-user">{name}</td>
+                                            <td>{@formatDate value="{createdAt}"/}</td>
+                                            <td></td>
+                                            <td class="table-action">
+                                                <a href="/adddevrepo?{id}" class="action-icon"> <i class="mdi mdi-pencil" title="Editar" style="color: #007bff;"></i></a>
+                                                <a href="/deldevrepo?{id}" class="action-icon"> <i class="mdi mdi-delete" title="Excluir" style="color: red;"></i></a>
+                                            </td>
+                                        </tr>
+                                        {/result}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="chartReport" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{origin}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+    </div>
+    </div>
+</div>
+
+{>"partials/footer"/}
+{>"partials/scripts"/}
+
+<script>
+$("#add-dev").click(async () => {
+    $(location).attr("href", "http://" + location.host + "/adddevrepo");
+});
+
+const showChart = (labels,data,bgcolors) => {
+    document.querySelector(".modal-body").innerHTML = '<canvas id="myChart"></canvas>';
+
+    const ctx = document.getElementById('myChart');
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '',
+                data: data,
+                backgroundColor: bgcolors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y'
+        }
+    });
+
+};
+</script>
+
+{>"partials/closeheader"/}

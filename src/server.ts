@@ -1,41 +1,35 @@
-import express from "express";
-import path from "path";
-import bodyParser from "body-parser";
-import cons from "consolidate";
-import { routes } from "./routes";
-import { Utils } from "./utils";
+import express from 'express'
+import path from 'path'
+import bodyParser from 'body-parser'
+import cons from 'consolidate'
+import { routes } from './routes'
+import { Utils } from './utils'
 
-// ADD GITMOJI
+const utils = new Utils()
+utils.callDustHelpers()
 
-const folder = process.env.PWD ? process.env.PWD : process.env.pm_cwd;
+const app = express()
 
-require("dotenv").config(folder + "/.env");
+app.engine('dust', cons.dust)
 
-const utils = new Utils();
-utils.callDustHelpers();
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-const app = express();
+app.set('view engine', 'dust')
+app.set('views', path.join(__dirname, '/views'))
 
-app.engine("dust", cons.dust);
+app.use(express.static(path.join(__dirname, '../public')))
+app.use(express.static(path.join(__dirname, 'src')))
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.set("view engine", "dust");
-app.set("views", path.join(__dirname, "/views"));
-
-app.use(express.static(path.join(__dirname, "../public")));
-app.use(express.static(path.join(__dirname, "src")));
-
-app.use(routes);
+app.use(routes)
 
 try {
   app.listen(4000, () => {
-    console.clear();
+    console.clear()
     console.log(
       '\x1b[33m [** \x1b[37m Server is running on \x1b[36m "http://localhost:4000/" \x1b[33m **]'
-    );
-  });
+    )
+  })
 } catch (error) {
-  console.log("** ERROR INSTANCE SERVER **: " + error);
+  console.log('** ERROR INSTANCE SERVER **: ' + error)
 }

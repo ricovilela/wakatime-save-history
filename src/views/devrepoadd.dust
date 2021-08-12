@@ -1,0 +1,79 @@
+{>"partials/header"/}
+{>"partials/menu"/}
+{>"partials/topmenu"/}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="page-title">{title}</h4>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">Name</label>
+                        <input type="text" id="name" class="form-control" value="{data.name}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="example-email" class="form-label">URL Hours</label>
+                        <input type="text" id="urlhours" class="form-control" value="{data.urlhours}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="simpleinput" class="form-label">URL Languages Types</label>
+                        <input type="text" id="urllanguage" class="form-control" value="{data.urllanguage}">
+                    </div>
+
+                    <input type="hidden" id="iddev" class="form-control" value="{data.id}">
+
+                    <button type="button" class="btn btn-primary" id="add-dev">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{>"partials/footer"/}
+{>"partials/scripts"/}
+<script>
+
+  $("#add-dev").click(async () => {
+    const name = $("#name").val();
+    const urlhours = $("#urlhours").val();
+    const urllanguage = $("#urllanguage").val();
+    const id = $("#iddev").val();
+    
+    if(name && urlhours && urllanguage){
+      const datas = {
+        name,
+        urlhours,
+        urllanguage,
+        id
+      };
+      const connFetch = await fetch("http://" + location.host + "/adddevs", {
+        headers: { "Content-Type": "application/json" },
+        method: "post",
+        body: JSON.stringify(datas),
+      });
+  
+      const response = await connFetch.json();
+      if(response){
+        location = "http://" + location.host + "/adddevs";
+      }
+    } else {
+      alert("Todos os campos devem ser preenchidos.")
+    }
+  });
+
+</script>
+
+<script src="/js/typehead.jquery.min.js"></script>
+{>"partials/closeheader"/}

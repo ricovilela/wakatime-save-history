@@ -5,17 +5,24 @@
             <li class="side-nav-title side-nav-item">Users list</li>
 
             <li class="side-nav-item">
-                <a href="/" class="side-nav-link">
+                <a href="/adddevs" class="side-nav-link">
                     <i class="uil-users-alt"></i>
-                    <span> All Users </span>
+                    <span> Developers </span>
                 </a>
             </li>
             
+            <!--li class="side-nav-item">
+                <a href="/timeline" class="side-nav-link">
+                    <i class="uil-users-alt"></i>
+                    <span> All Devs </span>
+                </a>
+            </li-->
+            
             {#result}
             <li class="side-nav-item">
-                <a href="/{user}" class="side-nav-link">
+                <a href="/timeline?{name}" class="side-nav-link">
                     <i class="uil-user"></i>
-                    <span> {user} </span>
+                    <span> {name} </span>
                 </a>
             </li>
             {/result}
